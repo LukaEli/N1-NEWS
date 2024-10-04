@@ -1,28 +1,46 @@
 import React from "react";
 import "../styles/navbar.css";
+import { Link } from "react-router-dom";
 
 function toggleMenu() {
   const navLinks = document.getElementById("navLinks");
   navLinks.classList.toggle("responsive");
 }
 
-const Navbar = () => {
+const Navbar = ({ username, onLogout }) => {
+  console.log(username, "<<<<username");
+
   return (
     <div className="topnav">
       <div className="nav-links" id="navLinks">
-        <a className="active" href="#home">
+        <Link className="active" to="/">
           Home
-        </a>
-        <a href="#news">News</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
-        <a className="profile" href="">
-          <span className="fas fa-user"></span> Profile
-        </a>
+        </Link>
+        <Link>News</Link>
+        <Link>Contact</Link>
+        <Link>About</Link>
+        <Link className="profile" to="/login">
+          {username?.avatar_url ? (
+            <img
+              src={username.avatar_url}
+              alt="Profile"
+              className="profile-image"
+            />
+          ) : (
+            <span className="fas fa-user"></span>
+          )}
+          Profile
+        </Link>
       </div>
-      <a className="icon" onClick={toggleMenu}>
-        <span className="fas fa-bars"></span>
-      </a>
+
+      {/* mobile version of profile */}
+      <Link className="icon" onClick={toggleMenu} to="/login">
+        {username.avatar_url ? (
+          <img src={username.avatar_url} alt="profile" />
+        ) : (
+          <span className="fas fa-bars"></span>
+        )}
+      </Link>
     </div>
   );
 };
